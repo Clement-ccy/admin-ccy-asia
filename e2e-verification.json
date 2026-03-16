@@ -1,0 +1,31 @@
+{
+  "api": {
+    "overviewStatus": 200,
+    "overviewBody": "{\"overview\":{\"pageviews\":2,\"visits\":1,\"visitors\":1,\"events\":0}}",
+    "commentsStatus": 200,
+    "commentsBody": "{\"comments\":[]}",
+    "settingsStatus": 200,
+    "settingsBody": "{\"settings\":[{\"key\":\"analytics.retention_days\",\"value_json\":\"90\",\"is_secret\":0},{\"key\":\"comments.rate_limit_per_10min\",\"value_json\":\"5\",\"is_secret\":0},{\"key\":\"comments.placeholder\",\"value_json\":\"\\\"Write your comment...\\\"\",\"is_secret\":0},{\"key\":\"comments.images_enabled\",\"value_json\":\"false\",\"is_secret\":0},{\"key\":\"comments.emoji_enabled\",\"value_json\":\"false\",\"is_secret\":0},{\"key\":\"comments.katex_enabled\",\"value_json\":\"false\",\"is_secret\":0},{\"key\":\"comments.code_enabled\",\"value_json\":\"false\",\"is_secret\":0},{\"key\":\"comments.auto_approve\",\"value_json\":\"false\",\"is_secret\":0},{\"key\":\"comments.mail_notify\",\"value_json\":\"true\",\"is_secret\":0},{\"key\":\"comments.mail_notify_reply\",\"value_json\":\"true\",\"is_secret\":0},{\"key\":\"admin.setup_disabled\",\"value_json\":\"\\\"true\\\"\",\"is_secret\":0}]}"
+  },
+  "pages": {
+    "dashboardUrl": "http://localhost:3000/dashboard",
+    "dashboardHeading": "PF ADMIN",
+    "hasSidebar": true,
+    "navLabels": [
+      "DASHBOARD",
+      "ANALYTICS",
+      "COMMENTS",
+      "SETTINGS"
+    ],
+    "commentsUrl": "http://localhost:3000/comments",
+    "commentsHeading": "PF ADMIN",
+    "settingsUrl": "http://localhost:3000/settings",
+    "settingsHeading": "PF ADMIN",
+    "unauthorizedResponsesBeforeLogout": []
+  },
+  "logout": {
+    "urlAfterLogout": "http://localhost:3000/",
+    "loginHeading": "SIGN IN",
+    "authMeStatusWithOldCookie": 401
+  }
+}

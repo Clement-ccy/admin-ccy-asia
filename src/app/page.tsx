@@ -67,81 +67,88 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="mx-auto flex min-h-[calc(100vh-6rem)] w-full max-w-lg items-center">
-      <div className="w-full rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl shadow-black/20 backdrop-blur">
-        <div className="flex items-center gap-3">
-          <div className="rounded-2xl border border-emerald-400/30 bg-emerald-400/10 p-3 text-emerald-300">
-            <Shield size={20} />
+    <div className="mx-auto flex min-h-[calc(100vh-6rem)] w-full max-w-lg items-center px-4">
+      <div className="w-full border-4 border-[var(--color-poster-ink)] bg-[var(--color-poster-paper-light)] p-8 shadow-[12px_12px_0px_var(--color-poster-ink)] relative">
+        <div className="absolute -top-6 -right-6 transform rotate-12 bg-[var(--color-poster-mustard)] border-4 border-[var(--color-poster-ink)] p-4 shadow-[4px_4px_0px_var(--color-poster-ink)] z-10 hidden sm:block">
+          <p className="text-xl font-black uppercase tracking-widest text-[var(--color-poster-ink)]">Top Secret</p>
+        </div>
+        
+        <div className="flex items-center gap-4 border-b-4 border-[var(--color-poster-ink)] pb-6 mb-6">
+          <div className="border-4 border-[var(--color-poster-ink)] bg-[var(--color-poster-green)] p-3 text-[var(--color-poster-ink)] shadow-[4px_4px_0px_var(--color-poster-ink)]">
+            <Shield size={32} strokeWidth={2.5} />
           </div>
           <div>
-            <p className="text-xs font-mono uppercase tracking-widest text-neutral-400">Admin</p>
-            <h1 className="text-2xl font-semibold text-neutral-100">{mode === 'register' ? 'Register Admin' : 'Sign in'}</h1>
+            <p className="text-sm font-bold uppercase tracking-widest text-[var(--color-poster-red)] mb-1">Admin</p>
+            <h1 className="text-3xl font-black uppercase tracking-tighter text-[var(--color-poster-ink)]">{mode === 'register' ? 'Register' : 'Sign in'}</h1>
           </div>
         </div>
 
-        <div className="mt-4 flex items-center gap-3 text-xs font-mono">
+        <div className="mb-6 flex items-center gap-3 text-sm font-black uppercase tracking-widest">
           <button
             type="button"
             onClick={() => setMode('login')}
-            className={cn('uppercase tracking-widest', mode === 'login' ? 'text-neutral-100' : 'text-neutral-500')}
+            className={cn('transition-colors border-b-4 pb-1', mode === 'login' ? 'border-[var(--color-poster-ink)] text-[var(--color-poster-ink)]' : 'border-transparent text-[var(--color-poster-ink)] opacity-50 hover:opacity-100')}
           >
             Login
           </button>
-          <span className="text-neutral-500">/</span>
+          <span className="text-[var(--color-poster-ink)] opacity-30">/</span>
           <button
             type="button"
             disabled={setupDisabled}
             onClick={() => setMode('register')}
-            className={cn('uppercase tracking-widest', mode === 'register' ? 'text-neutral-100' : 'text-neutral-500', setupDisabled && 'opacity-50')}
+            className={cn('transition-colors border-b-4 pb-1', mode === 'register' ? 'border-[var(--color-poster-ink)] text-[var(--color-poster-ink)]' : 'border-transparent text-[var(--color-poster-ink)] opacity-50 hover:opacity-100', setupDisabled && 'opacity-30 cursor-not-allowed hover:opacity-30')}
           >
             Register
           </button>
-          {setupDisabled && <span className="text-neutral-500">(disabled)</span>}
+          {setupDisabled && <span className="text-[var(--color-poster-red)] text-xs ml-2 border-2 border-[var(--color-poster-red)] px-1 rotate-[-5deg]">(disabled)</span>}
         </div>
 
-        <div className="mt-6 space-y-4">
-          <label className="text-xs font-mono uppercase tracking-widest text-neutral-400">
+        <div className="space-y-6">
+          <label className="block text-sm font-bold uppercase tracking-widest text-[var(--color-poster-ink)]">
             Username
             <input
               type="text"
               value={state.username}
               onChange={(event) => handleChange('username', event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-2 text-sm text-neutral-100 outline-none ring-0 placeholder:text-neutral-500 focus:border-white/20"
+              className="mt-2 w-full border-4 border-[var(--color-poster-ink)] bg-[var(--color-poster-paper)] px-4 py-3 text-lg font-medium text-[var(--color-poster-ink)] outline-none focus:bg-[var(--color-poster-mustard)] transition-colors shadow-[inset_4px_4px_0px_rgba(0,0,0,0.05)]"
             />
           </label>
 
-          <label className="text-xs font-mono uppercase tracking-widest text-neutral-400">
+          <label className="block text-sm font-bold uppercase tracking-widest text-[var(--color-poster-ink)]">
             Password
             <input
               type="password"
               value={state.password}
               onChange={(event) => handleChange('password', event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-2 text-sm text-neutral-100 outline-none ring-0 placeholder:text-neutral-500 focus:border-white/20"
+              className="mt-2 w-full border-4 border-[var(--color-poster-ink)] bg-[var(--color-poster-paper)] px-4 py-3 text-lg font-medium text-[var(--color-poster-ink)] outline-none focus:bg-[var(--color-poster-mustard)] transition-colors shadow-[inset_4px_4px_0px_rgba(0,0,0,0.05)]"
             />
           </label>
 
-          {error && <p className="text-xs font-mono text-red-400">{error}</p>}
+          {error && (
+            <div className="border-4 border-[var(--color-poster-ink)] bg-[var(--color-poster-red)] p-3 text-center">
+              <p className="text-sm font-black uppercase tracking-widest text-[var(--color-poster-paper)]">{error}</p>
+            </div>
+          )}
 
           <button
             type="button"
             onClick={handleSubmit}
             disabled={isLoading}
             className={cn(
-              'inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-black transition-opacity hover:opacity-80',
-              isLoading && 'opacity-60'
+              'mt-8 inline-flex w-full items-center justify-center gap-3 border-4 border-[var(--color-poster-ink)] bg-[var(--color-poster-ink)] px-6 py-4 text-lg font-black uppercase tracking-widest text-[var(--color-poster-paper)] transition-all hover:bg-[var(--color-poster-paper-light)] hover:text-[var(--color-poster-ink)] shadow-[4px_4px_0px_var(--color-poster-ink)] hover:shadow-none hover:translate-y-1 hover:translate-x-1',
+              isLoading && 'opacity-80 cursor-not-allowed'
             )}
           >
-            {mode === 'register' ? <UserPlus size={16} /> : <LogIn size={16} />}
-            {isLoading ? 'Working...' : mode === 'register' ? 'Create admin' : 'Sign in'}
+            {mode === 'register' ? <UserPlus size={24} strokeWidth={3} /> : <LogIn size={24} strokeWidth={3} />}
+            {isLoading ? 'Working...' : mode === 'register' ? 'Create Access' : 'Authorize'}
           </button>
         </div>
 
-        <p className="mt-6 text-xs font-mono text-neutral-400">
-          Back to{' '}
-          <Link href="https://ccy.asia" className="text-neutral-100 underline">
+        <p className="mt-8 text-xs font-bold uppercase tracking-widest text-[var(--color-poster-ink)] opacity-70 text-center border-t-2 border-dashed border-[var(--color-poster-ink)] pt-6">
+          Return to{' '}
+          <Link href="https://ccy.asia" className="text-[var(--color-poster-red)] underline decoration-2 hover:bg-[var(--color-poster-ink)] hover:text-[var(--color-poster-paper)] px-1">
             public site
           </Link>
-          .
         </p>
       </div>
     </div>

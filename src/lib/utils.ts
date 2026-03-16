@@ -7,7 +7,19 @@ const normalizeBaseUrl = (value: string) => {
   return trimmed.endsWith('/') ? trimmed.slice(0, -1) : trimmed;
 };
 
-export const API_BASE_URL = normalizeBaseUrl(process.env.NEXT_PUBLIC_API_BASE_URL ?? 'https://api.ccy.asia');
+const LOCAL_API_PATTERN = /^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/;
+
+const resolveApiBaseUrl = () => {
+  const configuredBaseUrl = normalizeBaseUrl(process.env.NEXT_PUBLIC_API_BASE_URL ?? '');
+
+  if (configuredBaseUrl && process.env.NODE_ENV !== 'production' && LOCAL_API_PATTERN.test(configuredBaseUrl)) {
+    return '/api';
+  }
+
+  return configuredBaseUrl || 'https://api.ccy.asia';
+};
+
+export const API_BASE_URL = resolveApiBaseUrl();
 
 export const buildApiUrl = (path: string) => {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;

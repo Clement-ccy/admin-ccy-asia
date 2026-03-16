@@ -7,6 +7,7 @@
 
 # worker
 /.wrangler/
+/worker/.wrangler/
 
 # production
 /build

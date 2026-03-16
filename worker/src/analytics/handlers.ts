@@ -5,6 +5,7 @@ import { jsonResponse, withCors } from '../core/http';
 import { normalizeHost, readSiteBySlug, isOriginAllowed } from '../core/site';
 import { readSetting } from '../core/settings';
 import { hashString } from '../core/crypto';
+import { requireAdminSession } from '../admin/handlers';
 
 const normalizePath = (value: string) => (value.startsWith('/') ? value : `/${value}`);
 
@@ -249,6 +250,10 @@ export const handleAnalyticsEvent = async (request: Request, env: Env) => {
 };
 
 export const handleAdminAnalyticsOverview = async (request: Request, env: Env) => {
+  const session = await requireAdminSession(request, env);
+  if (!session) {
+    return withCors(request, env, jsonResponse({ error: 'Unauthorized' }, 401));
+  }
   const siteSlug = new URL(request.url).searchParams.get('site') ?? env.SITE_SLUG ?? 'main';
   const site = await readSiteBySlug(env.DATABASE, siteSlug);
   if (!site) {
@@ -270,6 +275,10 @@ export const handleAdminAnalyticsOverview = async (request: Request, env: Env) =
 };
 
 export const handleAdminUmamiOverview = async (request: Request, env: Env) => {
+  const session = await requireAdminSession(request, env);
+  if (!session) {
+    return withCors(request, env, jsonResponse({ error: 'Unauthorized' }, 401));
+  }
   const siteSlug = new URL(request.url).searchParams.get('site') ?? env.SITE_SLUG ?? 'main';
   const site = await readSiteBySlug(env.DATABASE, siteSlug);
   if (!site) {
@@ -296,6 +305,10 @@ export const handleAdminUmamiOverview = async (request: Request, env: Env) => {
 };
 
 export const handleAdminUmamiPages = async (request: Request, env: Env) => {
+  const session = await requireAdminSession(request, env);
+  if (!session) {
+    return withCors(request, env, jsonResponse({ error: 'Unauthorized' }, 401));
+  }
   const url = new URL(request.url);
   const siteSlug = url.searchParams.get('site') ?? env.SITE_SLUG ?? 'main';
   const site = await readSiteBySlug(env.DATABASE, siteSlug);
@@ -314,6 +327,10 @@ export const handleAdminUmamiPages = async (request: Request, env: Env) => {
 };
 
 export const handleAdminUmamiReferrers = async (request: Request, env: Env) => {
+  const session = await requireAdminSession(request, env);
+  if (!session) {
+    return withCors(request, env, jsonResponse({ error: 'Unauthorized' }, 401));
+  }
   const url = new URL(request.url);
   const siteSlug = url.searchParams.get('site') ?? env.SITE_SLUG ?? 'main';
   const site = await readSiteBySlug(env.DATABASE, siteSlug);
@@ -332,6 +349,10 @@ export const handleAdminUmamiReferrers = async (request: Request, env: Env) => {
 };
 
 export const handleAdminUmamiEvents = async (request: Request, env: Env) => {
+  const session = await requireAdminSession(request, env);
+  if (!session) {
+    return withCors(request, env, jsonResponse({ error: 'Unauthorized' }, 401));
+  }
   const url = new URL(request.url);
   const siteSlug = url.searchParams.get('site') ?? env.SITE_SLUG ?? 'main';
   const site = await readSiteBySlug(env.DATABASE, siteSlug);
@@ -350,6 +371,10 @@ export const handleAdminUmamiEvents = async (request: Request, env: Env) => {
 };
 
 export const handleAdminUmamiBreakdown = async (request: Request, env: Env, dimension: 'device' | 'os' | 'browser' | 'country') => {
+  const session = await requireAdminSession(request, env);
+  if (!session) {
+    return withCors(request, env, jsonResponse({ error: 'Unauthorized' }, 401));
+  }
   const url = new URL(request.url);
   const siteSlug = url.searchParams.get('site') ?? env.SITE_SLUG ?? 'main';
   const site = await readSiteBySlug(env.DATABASE, siteSlug);
@@ -367,6 +392,10 @@ export const handleAdminUmamiBreakdown = async (request: Request, env: Env, dime
 };
 
 export const handleAdminUmamiTimeseries = async (request: Request, env: Env) => {
+  const session = await requireAdminSession(request, env);
+  if (!session) {
+    return withCors(request, env, jsonResponse({ error: 'Unauthorized' }, 401));
+  }
   const url = new URL(request.url);
   const siteSlug = url.searchParams.get('site') ?? env.SITE_SLUG ?? 'main';
   const site = await readSiteBySlug(env.DATABASE, siteSlug);
@@ -388,6 +417,10 @@ export const handleAdminUmamiTimeseries = async (request: Request, env: Env) => 
 };
 
 export const handleAdminUmamiRetention = async (request: Request, env: Env) => {
+  const session = await requireAdminSession(request, env);
+  if (!session) {
+    return withCors(request, env, jsonResponse({ error: 'Unauthorized' }, 401));
+  }
   const url = new URL(request.url);
   const siteSlug = url.searchParams.get('site') ?? env.SITE_SLUG ?? 'main';
   const site = await readSiteBySlug(env.DATABASE, siteSlug);

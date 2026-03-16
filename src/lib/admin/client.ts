@@ -15,6 +15,14 @@ const adminFetch = (input: RequestInfo | URL, init?: RequestInit) =>
     ...init,
   });
 
+export async function fetchAdminSession(csrf: string): Promise<boolean> {
+  const response = await adminFetch(buildApiUrl('/v1/admin/auth/me'), {
+    headers: csrfHeader(csrf),
+  });
+
+  return response.ok;
+}
+
 export async function fetchSetupStatus(): Promise<AdminSetupStatus | null> {
   const response = await adminFetch(buildApiUrl('/v1/admin/auth/setup-status'));
   if (!response.ok) return null;
@@ -57,6 +65,15 @@ export async function setupAdmin(payload: { username: string; password: string }
     return null;
   }
   return response.json() as Promise<AdminLoginResponse>;
+}
+
+export async function logoutAdmin(csrf: string): Promise<boolean> {
+  const response = await adminFetch(buildApiUrl('/v1/admin/auth/logout'), {
+    method: 'POST',
+    headers: csrfHeader(csrf),
+  });
+
+  return response.ok;
 }
 
 export async function fetchAdminOverview(csrf: string): Promise<AdminOverview | null> {

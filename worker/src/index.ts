@@ -22,6 +22,7 @@ import {
 } from './comments/handlers';
 import {
   handleAdminLogin,
+  handleAdminLogout,
   handleAdminSetup,
   handleAdminSetupStatus,
   handleAdminMe,
@@ -94,12 +95,16 @@ const worker = {
       return handleAdminSetupStatus(request, env);
     }
 
-    if (pathname === '/v1/admin/auth/me' && request.method === 'GET') {
-      return handleAdminMe(request, env);
-    }
+  if (pathname === '/v1/admin/auth/me' && request.method === 'GET') {
+    return handleAdminMe(request, env);
+  }
 
-    if (pathname === '/v1/admin/comments' && request.method === 'GET') {
-      return handleAdminComments(request, env);
+  if (pathname === '/v1/admin/auth/logout' && request.method === 'POST') {
+    return handleAdminLogout(request, env);
+  }
+
+  if (pathname === '/v1/admin/comments' && request.method === 'GET') {
+    return handleAdminComments(request, env);
     }
 
     if (pathname === '/v1/admin/analytics/overview' && request.method === 'GET') {

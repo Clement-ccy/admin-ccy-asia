@@ -26,7 +26,7 @@ const buildAdminSession = async (env: Env, userId: string, ip: string, ua: strin
   };
 };
 
-const requireAdminSession = async (request: Request, env: Env) => {
+export const requireAdminSession = async (request: Request, env: Env) => {
   const cookies = parseCookies(request.headers.get('Cookie'));
   const token = cookies['pf_admin_session'];
   const csrf = request.headers.get('X-CSRF-Token') ?? '';
@@ -97,6 +97,27 @@ export const handleAdminLogin = async (request: Request, env: Env) => {
   const domain = isCcyDomain ? '; Domain=.ccy.asia' : '';
   const cookie = `pf_admin_session=${encodeURIComponent(session.sessionToken)}; HttpOnly; Path=/; SameSite=${sameSite}${secure}${domain}; Max-Age=604800`;
   return withCors(request, env, jsonResponse({ ok: true, csrf: session.csrfToken }, 200, {
+    'Set-Cookie': cookie,
+  }));
+};
+
+export const handleAdminLogout = async (request: Request, env: Env) => {
+  const cookies = parseCookies(request.headers.get('Cookie'));
+  const token = cookies.pf_admin_session;
+
+  if (token) {
+    const tokenHash = await hashString(token, env.ADMIN_SESSION_SECRET);
+    await env.DATABASE.prepare('DELETE FROM admin_sessions WHERE token_hash = ?').bind(tokenHash).run();
+  }
+
+  const requestHost = new URL(request.url).hostname;
+  const isCcyDomain = requestHost.endsWith('ccy.asia');
+  const sameSite = isCcyDomain ? 'None' : 'Lax';
+  const secure = isCcyDomain ? '; Secure' : '';
+  const domain = isCcyDomain ? '; Domain=.ccy.asia' : '';
+  const cookie = `pf_admin_session=; HttpOnly; Path=/; SameSite=${sameSite}${secure}${domain}; Max-Age=0`;
+
+  return withCors(request, env, jsonResponse({ ok: true }, 200, {
     'Set-Cookie': cookie,
   }));
 };

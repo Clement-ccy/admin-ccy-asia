@@ -6,7 +6,7 @@ Cloudflare Worker API for analytics, comments, and admin backed by D1.
 ## STRUCTURE
 ```
 worker/
-├── wrangler.toml       # Worker config, cron, vars, D1 binding
+├── wrangler.jsonc      # Worker config, cron, vars, D1 binding
 ├── src/index.ts        # Router + scheduled cron entry
 ├── src/core/           # Shared helpers (http/crypto/request/site/settings/time)
 ├── src/analytics/      # Analytics handlers + rollups
@@ -19,7 +19,7 @@ worker/
 ## WHERE TO LOOK
 | Task | Location | Notes |
 |------|----------|-------|
-| Worker config | `wrangler.toml` | Cron schedule, vars, D1 binding |
+| Worker config | `wrangler.jsonc` | Cron schedule, vars, D1 binding |
 | Worker entry | `src/index.ts` | Routes + scheduled cron |
 | CORS/HTTP | `src/core/http.ts` | `withCors`, `handleOptions`, JSON responses |
 | Analytics | `src/analytics/handlers.ts` | collect/event + rollups |
